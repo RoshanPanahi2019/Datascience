@@ -1,4 +1,4 @@
-In this project I will be using Microsoft Azure to:
+In this project I will be using Microsoft Azure to build and end-to-end machine learning pipeline, including:
 
  - Pre-process data using appropriate modules.
  - Train and evaluate a boosted decision tree model on Azure ML Studio.
