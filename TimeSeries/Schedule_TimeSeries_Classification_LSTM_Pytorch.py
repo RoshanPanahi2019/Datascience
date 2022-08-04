@@ -20,8 +20,6 @@ np.random.seed(seed)
 torch.cuda.set_device(0)  # if you have more than one CUDA device
 exit()
 
-
-
 ROOT = Path.cwd().parent/'input'
 SAMPLE = ROOT/'sample_submission.csv'
 TRAIN = ROOT/'X_train.csv'
