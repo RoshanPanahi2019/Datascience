@@ -1,0 +1,1 @@
+ - Initially,the comments that consist of multiple sentences are treated as a single sentence. 
