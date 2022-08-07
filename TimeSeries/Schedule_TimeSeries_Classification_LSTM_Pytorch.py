@@ -2,6 +2,7 @@
 # https://www.kaggle.com/code/roshanposu/a-simple-lstm-based-time-series-classifier/edit
 # https://towardsdatascience.com/building-rnn-lstm-and-gru-for-time-series-using-pytorch-a46e5b094e7b
 
+from logging import RootLogger
 from multiprocessing import cpu_count
 from pathlib import Path
 import matplotlib.pyplot as plt
@@ -17,15 +18,16 @@ from torch.optim.lr_scheduler import _LRScheduler
 
 seed = 1
 np.random.seed(seed)
-torch.cuda.set_device(0)  # if you have more than one CUDA device
-exit()
+#torch.cuda.set_device(0)  # if you have more than one CUDA device
+path="/media/ms/OS/Users/rosha/Desktop/DS_USB_08012022/Data/TimeSeries/Train_Data/Data_Input/11039_Numeric.csv"
+df=pd.read_csv(path)
 
-ROOT = Path.cwd().parent/'input'
-SAMPLE = ROOT/'sample_submission.csv'
-TRAIN = ROOT/'X_train.csv'
-TARGET = ROOT/'y_train.csv'
-TEST = ROOT/'X_test.csv'
 
+# ROOT = Path.cwd().parent/'input'
+# SAMPLE = ROOT/'sample_submission.csv'
+# TRAIN = ROOT/'X_train.csv'
+# TARGET = ROOT/'y_train.csv'
+# TEST = ROOT/'X_test.csv'
 ID_COLS = ['series_id', 'measurement_number']
 
 x_cols = {
