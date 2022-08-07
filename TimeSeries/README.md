@@ -1,13 +1,4 @@
 # Corelation Matrix for Delay Root Causes
 
-Datascience/TimeSeries/README.md
-@RoshanPanahi2019
-RoshanPanahi2019 Create README.md
-Latest commit c374fa8 33 seconds ago
-History 
+![corelation_matrix](https://user-images.githubusercontent.com/55706949/183313326-4162c311-c947-45dd-9840-06b1e6535e8d.png)
 
-Datascience/TimeSeries/README.md
-@RoshanPanahi2019
-RoshanPanahi2019 Create README.md
-Latest commit c374fa8 33 seconds ago
-History 
