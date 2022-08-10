@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from os.path import exists
 import numpy as np
 
-path="/media/ms/OS/Users/rosha/Desktop/DS_USB_08012022/Data/Skanksa_Schedule_Classification_HotEncoded_08062022.csv"
+path="/media/ms/OS/Users/rosha/Desktop/DS_USB_08012022/Data/Skanksa_Schedule_Classification_HotEncoded_08092022.csv"
 df=pd.read_csv(path)
 df=df.drop(columns="Scope")
 row,column=df.shape
