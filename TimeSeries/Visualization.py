@@ -35,3 +35,17 @@ if not exists(heat_map_path):
     plt.ylabel('Features')
     heat_map = heat_map.get_figure() 
     heat_map.savefig('corelation_matrix.png', dpi=400)
+
+# Ditribution of the target values
+max=df["F27"].max()
+min=df["F27"].min()
+df["F27"].plot.hist(bins=max-min, alpha=0.5)
+plt.show() 
+
+
+
+
+
+
+
+
