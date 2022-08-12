@@ -2,6 +2,7 @@
 # https://www.kaggle.com/code/roshanposu/a-simple-lstm-based-time-series-classifier/edit
 # https://towardsdatascience.com/building-rnn-lstm-and-gru-for-time-series-using-pytorch-a46e5b094e7b
 
+from cProfile import label
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -52,7 +53,11 @@ def cal_accuracy(y_test, y_pred):
     print ("Accuracy : ", accuracy_score(y_test,y_pred)*100)
     print("Report : ", classification_report(y_test, y_pred))
     ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
+    plt.title("Classification of Projects to High/Low Risk \n Based on Observed Reasons for Delay")
+    plt.xlabel("Predicted Labels")
+    plt.ylabel("True Labels")
     plt.show()
+
 # Use bagging % boosting --> After noon thursday
 # Pre-process the data --> Friday
     # Draw distribution of the data
@@ -76,12 +81,11 @@ def main():
             df["F27"][rw]=0
         else:
             df["F27"][rw]=1
-    df["F27"].plot.hist(bins=100, alpha=0.5)
-
-    X = df.values[:, 0:column-2]
-    Y = df.values[:,column-1]
+    #df["F27"].plot.hist(bins=100, alpha=0.5)
 
     # split dataset %70/%30 
+    X = df.values[:, 0:column-2]
+    Y = df.values[:,column-1]
     X_train, X_test, y_train, y_test = train_test_split( 
             X, Y, test_size = 0.3, random_state = 100)
 
