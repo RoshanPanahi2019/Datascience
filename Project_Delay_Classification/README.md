@@ -1,3 +1,5 @@
+## Background
+%X of construction projects are delayed. In addition, the projects that meet the deadline also experience delays, however, mitigated before impacting the project schedule. Therefore, early identification of potential project delay will help mitigate the project level impact on sechdule. This paper proposes a machine learning approach to classify projects as high-risk/low risk based on the combination of reasons for milestone-delays.
 
 ## Methodology
 Decision tree was used to classify the projects into "high-risk", and "low-risk" based on the occurance of different causes for delay, during the entire project. 
