@@ -68,6 +68,12 @@ def main():
     # Pre-processing
     path="/media/ms/OS/Users/rosha/Desktop/DS_USB_08012022/Data/Skanksa_Schedule_Classification_HotEncoded_08092022.csv"
     df=pd.read_csv(path)
+    print(df.shape)
+    exit()
+
+
+
+
     df=df.drop(columns="Scope")
     row,column=df.shape
     for clm in range(column):
