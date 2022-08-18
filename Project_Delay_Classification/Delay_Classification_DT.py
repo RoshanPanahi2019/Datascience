@@ -2,6 +2,7 @@
 # https://www.kaggle.com/code/roshanposu/a-simple-lstm-based-time-series-classifier/edit
 # https://towardsdatascience.com/building-rnn-lstm-and-gru-for-time-series-using-pytorch-a46e5b094e7b
 
+# imports
 from cProfile import label
 import matplotlib.pyplot as plt
 import numpy as np
@@ -65,31 +66,12 @@ def cal_accuracy(y_test, y_pred):
 # NLP--> Thursday
 
 def main():
-    # Pre-processing
-    path="/media/ms/OS/Users/rosha/Desktop/DS_USB_08012022/Data/Skanksa_Schedule_Classification_HotEncoded_08092022.csv"
+    #Pre-processing 
+    path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv"
     df=pd.read_csv(path)
-    print(df.shape)
-    exit()
-
-
-
-
-    df=df.drop(columns="Scope")
     row,column=df.shape
-    for clm in range(column):
-        new="F"+str(clm)
-        df = df.rename(columns={df.columns[clm]: new})
 
-    # One-hot encoding (Why the umber of rows less and more than median are not equal?)
-    F27_median=df["F27"].median()
-    for rw in range(row):
-        if df["F27"][rw]<=F27_median:
-            df["F27"][rw]=0
-        else:
-            df["F27"][rw]=1
-    #df["F27"].plot.hist(bins=100, alpha=0.5)
-
-    # split dataset %70/%30 
+    ## split dataset %70/%30 
     X = df.values[:, 0:column-2]
     Y = df.values[:,column-1]
     X_train, X_test, y_train, y_test = train_test_split( 
@@ -97,7 +79,7 @@ def main():
 
     clf_gini = train_using_gini(X_train, X_test, y_train)
     clf_entropy = train_using_entropy(X_train, X_test, y_train)
-      
+
     print("Results Using Gini Index:")
       
     # Prediction using gini
