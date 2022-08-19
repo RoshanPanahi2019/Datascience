@@ -1,10 +1,12 @@
+# Visualizating the corelation between the project delay features and the project construction complete delay. 
+
 from tarfile import DEFAULT_FORMAT
 import pandas as pd
 import seaborn as sn
 import matplotlib.pyplot as plt
 from os.path import exists
 import numpy as np
-path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayType.csv"
+path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv"
 df=pd.read_csv(path)
 row,column=df.shape
 
@@ -21,7 +23,7 @@ row,column=df.shape
 # if not exists(legend_path):legend.to_excel('legend.xlsx') # store legend for crelation matrix.
 corrMatrix = df.corr()
    
-heat_map_path="./corelation_matrix_Delay_Type.png"
+heat_map_path="./corelation_matrix_DelayTypeFreq_vs_SignOffDelay.png"
 if not exists(heat_map_path): 
     sn.set(rc = {'figure.figsize':(12,12)})
     mask = np.triu(np.ones_like(corrMatrix, dtype=bool))
@@ -33,9 +35,12 @@ if not exists(heat_map_path):
     plt.ylabel('Features')
     heat_map = heat_map.get_figure() 
     heat_map.savefig(heat_map_path, dpi=400)
+print(df.sum())
+df.sum().plot()
+plt.show()
 
 # Ditribution of the target values
-max=df["F27"].max()
-min=df["F27"].min()
-df["F27"].plot.hist(bins=100, alpha=0.5)
-plt.show() 
+#max=df["F27"].max()
+#min=df["F27"].min()
+#df["F27"].plot.hist(bins=100, alpha=0.5)
+#plt.show() 

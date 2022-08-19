@@ -10,12 +10,12 @@ def pre_process_1():
  
     df=df.drop(columns="Scope")
     row,column=df.shape
-
-    for clm in range(column):
-        new="F"+str(clm)
-        df = df.rename(columns={df.columns[clm]: new})
+ 
+    #for clm in range(column):
+    #    new="F"+str(clm)
+    #    df = df.rename(columns={df.columns[clm]: new})
     df=abs(df)
-    df=df.rename(columns={"F26":"Label"})
+    df=df.rename(columns={"F27:Clean_Table_2.Target_Sum_Delay_SignOff":"Label"})
 
     # Data structure: df={Scope, Features[Fequency], Label[0/1]}
 
@@ -36,8 +36,10 @@ def pre_process_1():
         #   else:
         #       df.loc[rw][cl]=0
 
-    #df["Label"].plot.hist(bins=100, alpha=0.5)
-
+    #df.plot.hist(bins=28, alpha=0.5)
+    print(df.columns)
+    plt.show()
+    exit()
     df.to_csv("/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv", index=False )
 
 ####################################
