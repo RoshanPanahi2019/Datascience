@@ -14,6 +14,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.ensemble import RandomForestClassifier
 
 # Function to perform training with giniIndex.
 def train_using_gini(X_train, X_test, y_train):
@@ -38,6 +39,15 @@ def train_using_entropy(X_train, X_test, y_train):
     clf_entropy.fit(X_train, y_train)
     return clf_entropy
 
+def train_random_forest(X_train, X_test,y_train,y_test):
+    classifier = RandomForestClassifier(n_estimators=1000, random_state=100)
+    classifier.fit(X_train, y_train)   
+    y_pred = classifier.predict(X_test)
+    print(confusion_matrix(y_test,y_pred))
+    print(classification_report(y_test,y_pred))
+    print(accuracy_score(y_test, y_pred))   
+
+
 # Function to make predictions
 def prediction(X_test, clf_object):
   
@@ -59,26 +69,34 @@ def cal_accuracy(y_test, y_pred):
     plt.ylabel("True Labels")
     plt.show()
 
-# Use bagging % boosting --> After noon thursday
-# Pre-process the data --> Friday
-    # Draw distribution of the data
-    # Drop columns, scale, normalize, etc.
-# NLP--> Thursday
-
 def main():
     #Pre-processing 
-    path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv"
+    path="/media/ms/D/myGithub_Classified/Skanska/Data_Source/Out/Merge1_Tbl_1_2_4_DelayAmount_Reduced_Freq_Reduced_Label.csv"
+    path="/media/ms/D/myGithub_Classified/Skanska/Data_Source/Out/Merge_Tbl_1_3_Freq_Reduced_Label_OneHotEncoded.csv"
     df=pd.read_csv(path)
     row,column=df.shape
 
     ## split dataset %70/%30 
     X = df.values[:, 0:column-2]
     Y = df.values[:,column-1]
+    
+    from sklearn.preprocessing import StandardScaler
+    #sc = StandardScaler()
+   
+
     X_train, X_test, y_train, y_test = train_test_split( 
             X, Y, test_size = 0.3, random_state = 100)
 
+    #X_train = sc.fit_transform(X_train)
+    #X_test = sc.transform(X_test)
+
+
+    print(" Random forest-------->")
+    train_random_forest(X_train, X_test, y_train,y_test)
+    print(" Decision tree -------->")
     clf_gini = train_using_gini(X_train, X_test, y_train)
     clf_entropy = train_using_entropy(X_train, X_test, y_train)
+    
 
     print("Results Using Gini Index:")
       

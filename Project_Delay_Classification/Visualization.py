@@ -6,7 +6,7 @@ import seaborn as sn
 import matplotlib.pyplot as plt
 from os.path import exists
 import numpy as np
-path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv"
+path="/media/ms/D/myGithub_Classified/Skanska/Data_Source/Out/Merge_Tbl_1_3_Freq_Reduced_Label_OneHotEncoded.csv"
 df=pd.read_csv(path)
 row,column=df.shape
 
@@ -23,7 +23,7 @@ row,column=df.shape
 # if not exists(legend_path):legend.to_excel('legend.xlsx') # store legend for crelation matrix.
 corrMatrix = df.corr()
    
-heat_map_path="./corelation_matrix_DelayTypeFreq_vs_SignOffDelay.png"
+heat_map_path="./corelation_matrix_Freq_Label.png"
 if not exists(heat_map_path): 
     sn.set(rc = {'figure.figsize':(12,12)})
     mask = np.triu(np.ones_like(corrMatrix, dtype=bool))

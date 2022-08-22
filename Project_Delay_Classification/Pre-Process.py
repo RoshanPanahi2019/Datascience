@@ -1,47 +1,38 @@
 # imports
+from os import read
+from time import process_time_ns
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-def pre_process_1():
-    #Pre-processing 
-    path="/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay.csv"
-    df=pd.read_csv(path)
- 
-    df=df.drop(columns="Scope")
-    row,column=df.shape
- 
-    #for clm in range(column):
-    #    new="F"+str(clm)
-    #    df = df.rename(columns={df.columns[clm]: new})
-    df=abs(df)
-    df=df.rename(columns={"F27:Clean_Table_2.Target_Sum_Delay_SignOff":"Label"})
+def my_read_file(path):
+    data=pd.read_csv(path)
+    data=data.drop(columns="Scope")
+    #data=data.drop(columns="F26_freq:Scope/Schedule Development During Rev-1")
+    #data=data.drop(columns="F0_freq:DWN (Impact to OA)")
+    data=data.abs()
 
-    # Data structure: df={Scope, Features[Fequency], Label[0/1]}
+    return data
 
-    ## One-Hot-Encoding 
-    Label_median=df["Label"].median()
-
-    for rw in range(row):
-        ### One-Hot-Encoding the label
-        if df["Label"][rw]<=Label_median:
-            df["Label"][rw]=0
+def my_one_hot_encode(data, column_name): # One-Hot-Encoding the label
+    m,n=data.shape
+    median=data[column_name].median()
+    for rw in range(m):
+        if data[column_name][rw]<=median:
+            data[column_name][rw]=0
         else:
-            df["Label"][rw]=1
-            
-        ### One-Hot-Encoding the features-Frequency ignored.
-        #for cl in range (clm-1):
-        #    if df.loc[rw][cl]>0:
-        #        df.loc[rw][cl]=1
-        #   else:
-        #       df.loc[rw][cl]=0
+            data[column_name][rw]=1
+    data.to_csv("/media/ms/D/myGithub_Classified/Skanska/Data_Source/Out/Merge_Tbl_1_3_Freq_Reduced_Label_OneHotEncoded.csv", index=False )
+    return data
 
-    #df.plot.hist(bins=28, alpha=0.5)
-    print(df.columns)
-    plt.show()
-    exit()
-    df.to_csv("/media/ms/D/myGithub_Classified/Skanska/Schedule_Pred_DelayTypeFreq_CC_Delay_OneHotEncoded.csv", index=False )
-
-####################################
+def my_normalize(data):
+    #print(data.head(5))
+    return data
+    
+#----------------------------
 if __name__=="__main__":
-    pre_process_1()
+    path="/media/ms/D/myGithub_Classified/Skanska/Data_Source/Merge1_Tbl_1_2_4_DelayAmount_Reduced_Freq_Reduced_Label.csv"
+    path="/media/ms/D/myGithub_Classified/Skanska/Data_Source/Merge_Tbl_1_3_Freq_Reduced_Label.csv"
+    data=my_read_file(path) 
+    data=my_one_hot_encode(data,"Target_Sum_Delay_SignOff")
+    #my_normalize(data)
