@@ -27,7 +27,7 @@ Bag of words (word embbedding) representation method was used to represent the d
 A corpus of documents was represented by a matrix with one row per document and one column per token occurring in the corpus of documents.
 
 Results and discussions:
-
+ 
 
 
 
