@@ -1,4 +1,4 @@
-##Delay root cause inference based on the comment documents, using natural language processing. 
+## Delay root cause inference based on the comment documents, using natural language processing. 
 
 In this project, the comments from schedulers were classified into 11 categories using natural language processing.
 
@@ -27,7 +27,7 @@ Bag of words (word embbedding) representation method was used to represent the d
 A corpus of documents was represented by a matrix with one row per document and one column per token occurring in the corpus of documents.
 
 Results and discussions:
-
+ 
 
 
 
