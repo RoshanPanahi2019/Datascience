@@ -20,9 +20,12 @@ To make the inference, natural language processing is used.
 ### Data processing:
 Bag of words (word embbedding) representation method was used to represent the documents with numbers as features. 
 
-#### Tokenizing: words were treated as tokens and given an integer id for each possible token.
-#### Counting: occurrences of tokens were counted in each document.
-#### Normalizing: normalizing and weighting with diminishing importance tokens that occur in the majority of samples/documents were performed.
+#### Tokenizing:
+ words were treated as tokens and given an integer id for each possible token.
+#### Counting:
+ occurrences of tokens were counted in each document.
+#### Normalizing:
+ normalizing and weighting with diminishing importance tokens that occur in the majority of samples/documents were performed.
 (More specific definition)
 A corpus of documents was represented by a matrix with one row per document and one column per token occurring in the corpus of documents.
 
