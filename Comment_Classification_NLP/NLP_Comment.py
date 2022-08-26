@@ -9,6 +9,9 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 from pickle import TRUE
 from pydoc import doc
 from tkinter.tix import COLUMN
@@ -59,8 +62,19 @@ def train_test(X,y):
     print(confusion_matrix(y_test,y_pred))
     print(classification_report(y_test,y_pred))
     print(accuracy_score(y_test, y_pred))
-    return(classifier)
- 
+    return(y_test, y_pred)
+
+def cal_accuracy(y_test, y_pred):
+        
+    print("Confusion Matrix: ", confusion_matrix(y_test, y_pred))
+    print ("Accuracy : ", accuracy_score(y_test,y_pred)*100)
+    print("Report : ", classification_report(y_test, y_pred))
+    ConfusionMatrixDisplay.from_predictions(y_test,y_pred)
+    plt.title("Classifying Field Crew Comments to 25 Delay Root Cause Classes")
+    plt.xlabel("Predicted Labels")
+    plt.ylabel("True Labels")
+    plt.show()
+
 # move this to the schedule classifer script. 
 #def Visualize(rf):
 #    import matplotlib.pyplot as plt
@@ -84,4 +98,5 @@ if __name__=="__main__":
     
     documents=pre_process(data)
     vector=vectorize(documents,data["Label"])
-    train_test(vector,data["Label"])
+    y_test, y_pred=train_test(vector,data["Label"])
+    cal_accuracy(y_test, y_pred)
