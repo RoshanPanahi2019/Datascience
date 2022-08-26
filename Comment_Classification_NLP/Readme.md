@@ -24,7 +24,10 @@ In order to infer the root cause of delays from the comments, X steps were taken
 
 
 
-Results and discussions:
+### Results and discussions:
+
+![Comment_Classification_Confusion_Matrix](https://user-images.githubusercontent.com/55706949/186998256-09feca58-8472-4c7e-9e55-1d2277e988e5.png)
+
  
 
 
