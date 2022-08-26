@@ -9,8 +9,7 @@ sentences. The second column, "Label", is the root cause of the delay based on t
 on 11 different categories. These categories are shown in table X. 
 
 ## Objective:
-The goal is to infere the root cause based on the comments that the superintendents provide schedulers and
-stored in the first column. 
+The goal is to infere the root cause based on the comments that the superintendents provide schedulers and stored in the first column. 
 
 ## Methodology:
 In order to infer the root cause of delays from the comments, X steps were taken: 
