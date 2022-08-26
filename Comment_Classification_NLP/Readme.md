@@ -15,8 +15,16 @@ stored in the first column.
 ## Methodology:
 In order to infer the root cause of delays from the comments, X steps were taken: 
 ### (1) Data Collection:
+Data was collected from 256 projects, from the company. 
 ### (2) Data Cleaning:
+
 ### (3) Exploratory Data Analysis (EDA):
+Priliminary EDA shows that the data includes 1000 rows and 2 columns, corresponding to the number of projects and the column "Comment" and "Root Cause for Delay" which is treated as labels. Figure below shows the ditribution of the labels. 
+
+![LabelDistribution](https://user-images.githubusercontent.com/55706949/186999007-bf799541-2fef-4cc7-ab29-bb151212daca.png)
+
+As shown in the figure above, the dataset is unbalanced in terms of number of target classes. This would result in bias to the majority class. Therefore, the X method is used to smaple more from the minority class (TBD). 
+
 ### (4) Data Pre-Processing:
  Data was devided into train/test with the 0.6/0.4 ratio. 
 ### (5) Inference:
@@ -25,10 +33,15 @@ In order to infer the root cause of delays from the comments, X steps were taken
 
 
 ### Results and discussions:
+The accuracy of the implemention is %89. 
 
-![Comment_Classification_Confusion_Matrix](https://user-images.githubusercontent.com/55706949/186998256-09feca58-8472-4c7e-9e55-1d2277e988e5.png)
+
+ ![Comment_Classification_Confusion_Matrix](https://user-images.githubusercontent.com/55706949/186998256-09feca58-8472-4c7e-9e55-1d2277e988e5.png)
 
  
+
+
+
 
 
 

@@ -93,8 +93,9 @@ if __name__=="__main__":
     path="/media/ms/D/myGithub_Classified/Skanska/NLP/Comment_Root_Cause_EntireData_08262022.csv"
     data=my_read_file(path)
     dist_label=data['Label'].value_counts() # Statistics of the dataset.
-    #data["Label"].hist(bins=100)
-    #plt.show()
+    data["Label"].hist(bins=100)
+    plt.show()
+    exit()
     
     documents=pre_process(data)
     vector=vectorize(documents,data["Label"])
