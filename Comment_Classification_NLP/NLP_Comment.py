@@ -31,6 +31,12 @@ def my_read_file(path):
     data=data.rename(columns={"Enter Comments ":"Comment","Root_Cause_for_Slip_or_Push":"Label"}) # rename columns.
     return data
 
+def EDA(data):
+    dist_label=data['Label'].value_counts() # Statistics of the dataset.
+    data["Label"].hist(bins=100)
+    plt.show()
+    return(0)
+
 def pre_process(data):
     documents=[]
     stemmer = WordNetLemmatizer()
@@ -54,18 +60,6 @@ def vectorize(documents,y): # Tokenizing & Vectorizing
     X = tfidfconverter.fit_transform(X).toarray()
     return X
 
-def train(X,y,param_grid):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
-    rf = RandomForestClassifier(n_estimators=1000, random_state=100)
-    rf_random = RandomizedSearchCV(estimator = rf, param_distributions = param_grid, n_iter = 100, cv = 3, verbose=2, random_state=42, n_jobs = -1)
-    rf_random.fit(X_train, y_train)
-    print(rf_random.best_params_)
-    return(X_test,y_test,rf_random.best_estimator_)
-
-def evaluate(model, X_test, y_test):
-    predictions = model.predict(X_test)
-    return predictions
-
 def grid_search():
     n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)] # Number of features to consider at every split
     max_features = ['auto', 'sqrt'] # Maximum number of levels in tree
@@ -81,6 +75,18 @@ def grid_search():
                 'min_samples_leaf': min_samples_leaf,
                 'bootstrap': bootstrap}
     return(random_grid)
+
+def train(X,y,param_grid):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
+    rf = RandomForestClassifier(n_estimators=1000, random_state=100)
+    rf_random = RandomizedSearchCV(estimator = rf, param_distributions = param_grid, n_iter = 100, cv = 3, verbose=2, random_state=42, n_jobs = -1)
+    rf_random.fit(X_train, y_train)
+    print(rf_random.best_params_)
+    return(X_test,y_test,rf_random.best_estimator_)
+
+def evaluate(model, X_test, y_test):
+    predictions = model.predict(X_test)
+    return predictions
 
 def cal_accuracy(y_test, y_pred):
         
@@ -110,12 +116,10 @@ def cal_accuracy(y_test, y_pred):
 if __name__=="__main__":
     path="/media/ms/D/myGithub_Classified/Skanska/NLP/Comment_Root_Cause_EntireData_08262022.csv"
     data=my_read_file(path)
-    #dist_label=data['Label'].value_counts() # Statistics of the dataset.
-    #data["Label"].hist(bins=100)
-    #plt.show()
+    #EDA(data)
     documents=pre_process(data)
     vector=vectorize(documents,data["Label"])
     param_grid=grid_search()
     X_test,y_test,rf_model_best=train(vector,data["Label"],param_grid)
     y_pred = evaluate(rf_model_best, X_test, y_test)
-    cal_accuracy(y_test, y_pred)
+    cal_accuracy(y_test, y_pred) 
