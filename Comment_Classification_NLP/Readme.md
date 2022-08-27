@@ -22,7 +22,7 @@ Priliminary EDA shows that the data includes 1000 rows and 2 columns, correspond
 
 ![LabelDistribution](https://user-images.githubusercontent.com/55706949/186999007-bf799541-2fef-4cc7-ab29-bb151212daca.png)
 
-As shown in the figure above, the dataset is unbalanced in terms of number of target classes. This would result in bias to the majority class. Therefore, the X method is used to smaple more from the minority class (TBD). 
+As shown in the figure above, the dataset is unbalanced in terms of number of target classes. This would result in bias towards the majority class. Therefore, the X method is used to sample more from the minority class (TBD). 
 
 ### 4. Data Pre-Processing:
  Data was devided into train/test with the 0.6/0.4 ratio. 
