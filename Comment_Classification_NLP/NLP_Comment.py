@@ -60,6 +60,33 @@ def vectorize(documents,y): # Tokenizing & Vectorizing
     X = tfidfconverter.fit_transform(X).toarray()
     return X
 
+# Working on this code-block. 
+def word2vec():
+  class MeanEmbeddingVectorizer(object):
+    def __init__(self, word2vec):
+        self.word2vec = word2vec
+        # if a text is empty we should return a vector of zeros
+        # with the same dimensionality as all the other vectors
+        self.dim = len(next(iter(word2vec.values())))  
+    def fit(self, X, y):
+            return self
+
+    def transform(self, X):
+            return np.array([
+                np.mean([self.word2vec[w] for w in words if w in self.word2vec]
+                        or [np.zeros(self.dim)], axis=0)
+                for words in X
+            ])
+
+    w2v = dict(zip(model.wv.index2word, model.wv.syn0)) 
+    df['clean_text_tok']=[nltk.word_tokenize(i) for i in df['clean_text']]
+    model = Word2Vec(df['clean_text_tok'],min_count=1)     
+    modelw = MeanEmbeddingVectorizer(w2v)
+
+    # converting text to numerical data using Word2Vec
+    X_train_vectors_w2v = modelw.transform(X_train_tok)
+    X_val_vectors_w2v = modelw.transform(X_test_tok)
+
 def grid_search():
     n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)] # Number of features to consider at every split
     max_features = ['auto', 'sqrt'] # Maximum number of levels in tree
