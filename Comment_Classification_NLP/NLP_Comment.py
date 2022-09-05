@@ -60,7 +60,7 @@ def vectorize(documents,y): # Tokenizing & Vectorizing
     X = tfidfconverter.fit_transform(X).toarray()
     return X
 
-# Working on this code-block. 
+# Working on this code-block./ done:learn the math / learn the implementation.
 def word2vec():
   class MeanEmbeddingVectorizer(object):
     def __init__(self, word2vec):
