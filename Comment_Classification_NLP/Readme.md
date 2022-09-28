@@ -2,17 +2,24 @@
 
 In this project, the comments from schedulers were classified into 11 categories using natural language processing.
 
+## Objective:
+The goal is to infere the root cause based on the comments that the superintendents provide schedulers and stored in the first column. 
+
+## Methodology:
+In order to infer the root cause of delays from the comments, X steps were taken: 
+
+
+### 3. Feature Egineering: 
+
+
+## Case study:
+
 ## Description of the dataset:
 The dataset consists of a table with 1000 rows and 2 columns. Each row corresponds to a milestone delay. 
 The first column, " Comment" consists of a description of the reason for delay, usually incluing up to three 
 sentences. The second column, "Label", is the root cause of the delay based on the comment which can take 
 on 11 different categories. These categories are shown in table X. 
 
-## Objective:
-The goal is to infere the root cause based on the comments that the superintendents provide schedulers and stored in the first column. 
-
-## Methodology:
-In order to infer the root cause of delays from the comments, X steps were taken: 
 ### 1. Data Collection:
 Data was collected from 256 projects, from the company. 
 ### 2. Data Cleaning:

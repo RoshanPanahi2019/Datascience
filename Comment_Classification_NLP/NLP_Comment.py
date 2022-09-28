@@ -3,24 +3,22 @@
 # Github in VS Code: https://code.visualstudio.com/docs/editor/github
 # Random forest --> Read the documentation in https://stackabuse.com/random-forest-algorithm-with-python-and-scikit-learn/
 # Word to Vec: https://towardsdatascience.com/text-classification-with-nlp-tf-idf-vs-word2vec-vs-bert-41ff868d1794
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from nltk.stem import WordNetLemmatizer
-from sklearn.model_selection import RandomizedSearchCV# Number of trees in random forest
-from pprint import pprint
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import ConfusionMatrixDisplay
-from pickle import TRUE
-from tkinter.tix import COLUMN
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import re
 import nltk
+from sklearn.feature_selection import chi2 
+from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
+from nltk.stem import WordNetLemmatizer
+from sklearn.model_selection import RandomizedSearchCV, train_test_split 
+from pprint import pprint
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, ConfusionMatrixDisplay
+from pickle import TRUE
+from tkinter.tix import COLUMN
+
+
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
@@ -60,7 +58,28 @@ def vectorize(documents,y): # Tokenizing & Vectorizing
     X = tfidfconverter.fit_transform(X).toarray()
     return X
 
+def Chi_Square(X_train,y_train): # Continue from here. properly import chi2. 
+    y = y_train
+    #X_names = vectorizer.get_feature_names()
+    p_value_limit = 0.95
+    dtf_features = pd.DataFrame()
+    for cat in np.unique(y):
+        chi2, p = feature_selection.chi2(X_train, y==cat)
+        dtf_features = dtf_features.append(pd.DataFrame(
+                    {"feature":X_names, "score":1-p, "y":cat}))
+        dtf_features = dtf_features.sort_values(["y","score"], 
+                        ascending=[True,False])
+        dtf_features = dtf_features[dtf_features["score"]>p_value_limit]
+        X_names = dtf_features["feature"].unique().tolist()
+    return(X_names)
 # Working on this code-block./ done:learn the math / learn the implementation.
+def split(X,y):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
+    X_train=Chi_Square(X_train,y_train)
+    return(X_train, X_test, y_train, y_test)
+
+
+
 def word2vec():
   class MeanEmbeddingVectorizer(object):
     def __init__(self, word2vec):
@@ -103,8 +122,8 @@ def grid_search():
                 'bootstrap': bootstrap}
     return(random_grid)
 
-def train(X,y,param_grid):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
+def train(X_train, X_test, y_train, y_test,param_grid):
+
     rf = RandomForestClassifier(n_estimators=1000, random_state=100)
     rf_random = RandomizedSearchCV(estimator = rf, param_distributions = param_grid, n_iter = 100, cv = 3, verbose=2, random_state=42, n_jobs = -1)
     rf_random.fit(X_train, y_train)
@@ -146,7 +165,8 @@ if __name__=="__main__":
     #EDA(data)
     documents=pre_process(data)
     vector=vectorize(documents,data["Label"])
+    X_train, X_test, y_train, y_test=split(vector,data["Label"])
     param_grid=grid_search()
-    X_test,y_test,rf_model_best=train(vector,data["Label"],param_grid)
+    X_test,y_test,rf_model_best=train(X_train, X_test, y_train, y_test,param_grid)
     y_pred = evaluate(rf_model_best, X_test, y_test)
     cal_accuracy(y_test, y_pred) 
