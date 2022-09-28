@@ -17,6 +17,10 @@ In order to infer the root cause of delays from the comments, X steps were taken
 Data was collected from 256 projects, from the company. 
 ### 2. Data Cleaning:
 
+### 3. Feature Egineering: 
+Chi-Square test was performed to drop the features with insignificant corelation with the label. 
+
+
 ### 3. Exploratory Data Analysis (EDA):
 Priliminary EDA shows that the data includes 1000 rows and 2 columns, corresponding to the number of projects and the column "Comment" and "Root Cause for Delay" which is treated as labels. Figure below shows the ditribution of the labels. 
 

@@ -2,7 +2,7 @@
 # https://stackabuse.com/text-classification-with-python-and-scikit-learn/
 # Github in VS Code: https://code.visualstudio.com/docs/editor/github
 # Random forest --> Read the documentation in https://stackabuse.com/random-forest-algorithm-with-python-and-scikit-learn/
-
+# Word to Vec: https://towardsdatascience.com/text-classification-with-nlp-tf-idf-vs-word2vec-vs-bert-41ff868d1794
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
