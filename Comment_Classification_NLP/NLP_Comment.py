@@ -3,11 +3,18 @@
 # Github in VS Code: https://code.visualstudio.com/docs/editor/github
 # Random forest --> Read the documentation in https://stackabuse.com/random-forest-algorithm-with-python-and-scikit-learn/
 # Word to Vec: https://towardsdatascience.com/text-classification-with-nlp-tf-idf-vs-word2vec-vs-bert-41ff868d1794
+from asyncore import ExitNow
+from ctypes.wintypes import BOOL
+from errno import EIDRM
+#from msilib.schema import Feature
+from tkinter import X
+from xmlrpc.client import boolean
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import re
 import nltk
+import sklearn.feature_selection
 from sklearn.feature_selection import chi2 
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from nltk.stem import WordNetLemmatizer
@@ -51,34 +58,27 @@ def pre_process(data):
         documents.append(document)
     return documents
 
-def vectorize(documents,y): # Tokenizing & Vectorizing
-    vectorizer=CountVectorizer() # Create the vectorizer object. 
+def vectorize(documents,vocab=None): # Tokenizing & Vectorizing
+
+    vectorizer=CountVectorizer(vocabulary=vocab) # Create the vectorizer object. 
     X=vectorizer.fit_transform(documents).toarray() # Tokinize & count number of occurances.
     tfidfconverter = TfidfTransformer() # term frequency–inverse document frequency
     X = tfidfconverter.fit_transform(X).toarray()
-    return X
+    X_names = vectorizer.get_feature_names_out ()
+    return X,X_names
 
-def Chi_Square(X_train,y_train): # Continue from here. properly import chi2. 
-    y = y_train
-    #X_names = vectorizer.get_feature_names()
-    p_value_limit = 0.95
-    dtf_features = pd.DataFrame()
-    for cat in np.unique(y):
-        chi2, p = feature_selection.chi2(X_train, y==cat)
-        dtf_features = dtf_features.append(pd.DataFrame(
-                    {"feature":X_names, "score":1-p, "y":cat}))
-        dtf_features = dtf_features.sort_values(["y","score"], 
-                        ascending=[True,False])
-        dtf_features = dtf_features[dtf_features["score"]>p_value_limit]
-        X_names = dtf_features["feature"].unique().tolist()
-    return(X_names)
-# Working on this code-block./ done:learn the math / learn the implementation.
-def split(X,y):
+def Chi_Square(X_train,y_train,X_names): 
+    chi2, p = sklearn.feature_selection.chi2(X_train, y_train)
+    df=pd.DataFrame(data={"feature":X_names.tolist(),"p_value":p.tolist()})
+    indexP = df[(df['p_value'] >0.05)].index
+    df.drop(indexP , inplace=True)
+    df.dropna(axis="rows")
+    return (df["feature"])
+
+def split(X,y,X_names):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
-    X_train=Chi_Square(X_train,y_train)
+    X_train=Chi_Square(X_train,y_train,X_names)
     return(X_train, X_test, y_train, y_test)
-
-
 
 def word2vec():
   class MeanEmbeddingVectorizer(object):
@@ -161,12 +161,18 @@ def cal_accuracy(y_test, y_pred):
 #==============================================
 if __name__=="__main__":
     path="/media/ms/D/myGithub_Classified/Skanska/NLP/Comment_Root_Cause_EntireData_08262022.csv"
+    FS=False
+
     data=my_read_file(path)
     #EDA(data)
     documents=pre_process(data)
-    vector=vectorize(documents,data["Label"])
-    X_train, X_test, y_train, y_test=split(vector,data["Label"])
-    param_grid=grid_search()
+    vector, X_names=vectorize(documents) # vectorize the initial document. 
+    X_train, X_test, y_train, y_test = train_test_split(vector, data["Label"], test_size=0.4, random_state=100) # Split to train & test. 
+    if (FS==True):
+        vocab=Chi_Square(X_train,y_train,X_names) # apply feature selection.
+        vector, X_names=vectorize(documents,vocab) # vectorize the document,this time with selected vocabulary.
+        X_train, X_test, y_train, y_test = train_test_split(vector, data["Label"], test_size=0.4, random_state=100) # Split to train & test. 
+    param_grid=grid_search() 
     X_test,y_test,rf_model_best=train(X_train, X_test, y_train, y_test,param_grid)
     y_pred = evaluate(rf_model_best, X_test, y_test)
     cal_accuracy(y_test, y_pred) 
