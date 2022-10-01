@@ -10,7 +10,7 @@ In order to infer the root cause of delays from the comments, X steps were taken
 
 
 ### 3. Feature Egineering: 
-
+Chi-Square test was used to select the k most relevent features with respect to the label. This helps reduce the sparsity if of the training data, reduce the computational complexity of the model, reduce overfitting, therefore improve the performance of the model with smaller sizes of training data. 
 
 ## Case study:
 
@@ -25,7 +25,7 @@ Data was collected from 256 projects, from the company.
 ### 2. Data Cleaning:
 
 ### 3. Feature Egineering: 
-Chi-Square test was performed to drop the features with insignificant corelation with the label. 
+After applying Chi-Squar test, the features with P_value<0.05 and 'nan' were discarded, remaining 205 number of features from the intial 870 features 
 
 
 ### 3. Exploratory Data Analysis (EDA):

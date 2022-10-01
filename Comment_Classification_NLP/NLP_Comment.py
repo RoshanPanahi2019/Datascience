@@ -14,6 +14,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 import nltk
+from sklearn import naive_bayes, pipeline, manifold, preprocessing
+
 import sklearn.feature_selection
 from sklearn.feature_selection import chi2 
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
@@ -24,7 +26,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, ConfusionMatrixDisplay
 from pickle import TRUE
 from tkinter.tix import COLUMN
-
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
@@ -75,11 +76,6 @@ def Chi_Square(X_train,y_train,X_names):
     df.dropna(axis="rows")
     return (df["feature"])
 
-def split(X,y,X_names):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=100) # Split to train & test. 
-    X_train=Chi_Square(X_train,y_train,X_names)
-    return(X_train, X_test, y_train, y_test)
-
 def word2vec():
   class MeanEmbeddingVectorizer(object):
     def __init__(self, word2vec):
@@ -123,12 +119,17 @@ def grid_search():
     return(random_grid)
 
 def train(X_train, X_test, y_train, y_test,param_grid):
+    if (Random_Forest):
+        rf = RandomForestClassifier(n_estimators=1000, random_state=100)
+        rf_random = RandomizedSearchCV(estimator = rf, param_distributions = param_grid, n_iter = 100, cv = 3, verbose=2, random_state=42, n_jobs = -1)
+        rf_random.fit(X_train, y_train)
+        print(rf_random.best_params_)
+        return(X_test,y_test,rf_random.best_estimator_)
 
-    rf = RandomForestClassifier(n_estimators=1000, random_state=100)
-    rf_random = RandomizedSearchCV(estimator = rf, param_distributions = param_grid, n_iter = 100, cv = 3, verbose=2, random_state=42, n_jobs = -1)
-    rf_random.fit(X_train, y_train)
-    print(rf_random.best_params_)
-    return(X_test,y_test,rf_random.best_estimator_)
+    if (Naiive_B):
+        model_NB = naive_bayes.MultinomialNB()
+        model_NB.fit(X_train, y_train) 
+        return(X_test,y_test,model_NB) 
 
 def evaluate(model, X_test, y_test):
     predictions = model.predict(X_test)
@@ -161,18 +162,20 @@ def cal_accuracy(y_test, y_pred):
 #==============================================
 if __name__=="__main__":
     path="/media/ms/D/myGithub_Classified/Skanska/NLP/Comment_Root_Cause_EntireData_08262022.csv"
-    FS=False
+    feature_selection=False
+    Random_Forest=False
+    Naiive_B=True
 
     data=my_read_file(path)
     #EDA(data)
     documents=pre_process(data)
     vector, X_names=vectorize(documents) # vectorize the initial document. 
     X_train, X_test, y_train, y_test = train_test_split(vector, data["Label"], test_size=0.4, random_state=100) # Split to train & test. 
-    if (FS==True):
+    if (feature_selection==True):
         vocab=Chi_Square(X_train,y_train,X_names) # apply feature selection.
         vector, X_names=vectorize(documents,vocab) # vectorize the document,this time with selected vocabulary.
         X_train, X_test, y_train, y_test = train_test_split(vector, data["Label"], test_size=0.4, random_state=100) # Split to train & test. 
-    param_grid=grid_search() 
-    X_test,y_test,rf_model_best=train(X_train, X_test, y_train, y_test,param_grid)
-    y_pred = evaluate(rf_model_best, X_test, y_test)
+    param_grid=grid_search() # find best parameters for random forest. 
+    X_test,y_test,model=train(X_train, X_test, y_train, y_test,param_grid)
+    y_pred = evaluate(model, X_test, y_test)
     cal_accuracy(y_test, y_pred) 
