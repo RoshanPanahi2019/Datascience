@@ -9,7 +9,7 @@ df=pd.DataFrame
 df = pytesseract.image_to_data(img, output_type=Output.DICT)
 print(df["text"])
 
-# extract words from a drawing set
+# extract words from a drawing set using more accuracte method, use other library, ML based?
 # check the accuracy 
 # match with the tagged RFIs
 
