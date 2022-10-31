@@ -12,7 +12,7 @@ import pandas as pd
 
 # Convert the pdf file of the drawing to images and store them. 
 def pdf_to_img(pdf_dir,img_dir):
-    try:
+    try: 
          os.mkdir(img_dir)
     except:
          print ("The images have been extracted previously!")
