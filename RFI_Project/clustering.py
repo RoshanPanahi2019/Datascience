@@ -2,7 +2,7 @@
 from ast import And
 import pandas as pd
 
-# A better wat maybe to use the list of keywords as training data, and classify the records to disciplines accordingly. 
+# A better way maybe to use the list of keywords as training data, and classify the records to disciplines accordingly. 
 
 # create a tag column and for each record append tags to a list of tags. 
 # create a discipline column and for each record append discipline to a list of disciplines. 
