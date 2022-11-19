@@ -17,11 +17,9 @@ def pdf_to_img(pdf_dir,img_dir):
     except:
          print ("The images have been extracted previously!")
          return 
-    images = convert_from_path(pdf_path=pdf_dir)
-    for i in range(len(images)):
-        images[i].save(img_dir+str(i) +'.jpg')
+    convert_from_path(pdf_path=pdf_dir,fmt='jpg',output_folder=img_dir)
     return 
-
+    
 # Extract the texts from each image and store them in a seperate file for each image.
 def img_to_txt(img_dir,txt_dir):
     try :
@@ -30,7 +28,7 @@ def img_to_txt(img_dir,txt_dir):
         print("The corpus already exists!")
         return
         
-    for file in listdir(img_dir):
+    for file in sorted(listdir(img_dir)):
         img = Image.open(img_dir+file)
         data = pytesseract.image_to_data(img, output_type=Output.DICT)
         stopword_custom=[""," ","."]
@@ -40,6 +38,7 @@ def img_to_txt(img_dir,txt_dir):
 
 #=============================
 if __name__=="__main__":
+
     root="/media/mst/Backup/dataset/OCR/"
     pdf_file="Crooked_Cogswell_Plans.pdf" # input the name of the drawing pdf you want to convert to images.
     for pdf_file in listdir(root+"drawings/"):
