@@ -30,7 +30,6 @@ if __name__ == "__main__":
        data_path=root_dir+"Input/rfi data 9.05.18 rev2.xlsx"
        keywords_path=root_dir+"Annotation/keywords.csv"
        output_path=root_dir+"output/"
-
        df=pd.read_excel(data_path)
        df=clean(df)
        key_for_disciplines=pd.read_csv(keywords_path)
@@ -43,5 +42,5 @@ if __name__ == "__main__":
               # Use keywords with 100% confidence. 
               # Repeat until good amount is clustered. 
               # Think of the pipeline again. 
-              # Next step:
+              # Next step: 
                      # 
