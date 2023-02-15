@@ -3,7 +3,7 @@ This repostitory is dedicated to innovative applications of artificial intellige
 
 
 ## RFI Recommender System: 
-Unforeseen events lead to incidents, delays, and extra costs for construction projects. This software assists the reviewers to identify similar issues from past projects to reduce the likelihood of unforeseen. 
+Unforeseen events lead to incidents, delays, and extra costs for construction projects. This software assists the reviewers to identify similar issues from past projects to reduce the likelihood of unforeseens. 
 
 ## Delay Classification: 
 Over half of construction projects are delivered with delay. Documented precursors of such delays can be used to identify patterns and predict delays. This project quantifies the impact of such precursors on long-term delays. 
