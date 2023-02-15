@@ -1,5 +1,5 @@
-# Innovative Applications of Artificial Intelligence in Construction 
-This repostitory is dedicated to datascience related projects.
+
+This repostitory is dedicated to innovative applications of artificial intelligence in construction industry.
 
 
 ## RFI Recommender System: 
