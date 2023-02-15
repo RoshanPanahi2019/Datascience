@@ -1,5 +1,5 @@
 
-This repostitory is dedicated to innovative applications of artificial intelligence in construction industry, to help move out industry forward. 
+This repostitory is dedicated to innovative applications of artificial intelligence in construction industry, to help move our industry forward. 
 
 
 ## RFI Recommender System: 
