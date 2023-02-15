@@ -1,3 +1,15 @@
+Symbols:
+	- YOLO
+RFI:
+	- Clean
+	- Match
+	- Improve
+	- Categorize
+
+
+
+
+---------------------
 RFI Tagging:
 
 	- Think of the framework again

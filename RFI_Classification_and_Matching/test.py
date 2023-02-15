@@ -1,4 +1,23 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+#documents = [open(f).read() for f in text_files]
+documents = 'Hello hi there!'
+tfidf = TfidfVectorizer().fit_transform(documents)
+print(tfidf)
+exit()
+# no need to normalize, since Vectorizer will return normalized tf-idf
+pairwise_similarity = tfidf * tfidf.T
+
+
+
+
+
+
+
+
+exit()
 import spacy
+
 nlp = spacy.load('en_core_web_sm')
 doc1 = nlp(u'Hello hi there!')
 doc2 = nlp(u'Hello hi there!')
