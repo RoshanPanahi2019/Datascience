@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Table </title>   
+        <link rel="stylesheet" href="{{ url_for('static', filename='CSS/main.css') }}">           
+    </head>
+
+    <body>
+        <button class="btn_thumbs_up" onclick="thumbsUp()">👍</button> 
+        <!-- add the like button for all rows, based on the location of the row -->
+        <p class="p_like_count">0 likes</p>
+
+        <table class="my-table">
+            <thead>
+            <tr>
+                {% for col in tables.columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for index, row in tables.iterrows() %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </body> 
+</html>

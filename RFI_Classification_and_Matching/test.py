@@ -1,9 +1,27 @@
-import spacy
-nlp = spacy.load('en_core_web_sm')
-doc1 = nlp(u'Hello hi there!')
-doc2 = nlp(u'Hello hi there!')
-doc3 = nlp(u'Hey whatsup?')
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-print (doc1.similarity(doc3)) # 0.999999954642
-#print (doc2.similarity(doc3)) # 0.699032527716
-#print (doc1.similarity(doc3)) # 0.699032527716
+
+
+# returns the cosine similarity value of the two given texts
+def compute_cosine_similarity(text1, text2):
+    
+    # stores text in a list
+    list_text = [text1, text2]
+    
+    # converts text into vectors with the TF-IDF 
+    vectorizer = TfidfVectorizer(stop_words='english')
+    vectorizer.fit_transform(list_text)
+    tfidf_text1, tfidf_text2 = vectorizer.transform([list_text[0]]), vectorizer.transform([list_text[1]])
+    
+    # computes the cosine similarity
+    cs_score = cosine_similarity(tfidf_text1, tfidf_text2)
+    print(cs_score)
+    return np.round(cs_score[0][0],2)
+#======================
+if __name__=="__main__":
+    sentence1 = 'I like eating ice cream on a hot summer day.'
+    sentence2 = 'Only boring people do not like eating ice cream.'
+    sentence3 = 'I do not like going out during the summer since it is so hot.'
+    compute_cosine_similarity(sentence1,sentence2)

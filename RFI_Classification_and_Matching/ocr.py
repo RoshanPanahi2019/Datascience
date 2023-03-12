@@ -1,22 +1,40 @@
 # This program takes pdf drawings and outputs the texts for each sheet. 
+#TOD0: 
+#   pyInstaller fr OCR
+#   https://realpython.com/python-web-applications/
+#   test match_RFI_dwg 
+#   pyInstaller
 
 from os import listdir, mkdir
-import cv2
 import pytesseract
-import nltk
 from pytesseract import Output
 from pdf2image import convert_from_path
 from PIL import Image
 import os.path
 import pandas as pd
+import tkinter as tk
+from tkinter import filedialog
+
+# Ask user to open the drawing set 
+def open(mymode):
+    root = tk.Tk()
+    root.withdraw()
+    if mymode=='drawing': path = filedialog.askopenfilename(filetypes=[('PDF','.pdf')],title='Select Drawing')
+    if mymode=='output': path = filedialog.askdirectory(title='Select Output Directory')
+    if mymode=='tesseract': path = filedialog.askopenfilename(filetypes=[('EXE','.exe')],title='Select Tesseract Directory')
+    return(path)
+
+# Shorthand to create directories
+def create_dir(dir):
+    try: 
+         os.mkdir(dir)
+    except:
+         print ("Path exists!")
+         return 
 
 # Convert the pdf file of the drawing to images and store them. 
 def pdf_to_img(pdf_dir,img_dir):
-    try: 
-         os.mkdir(img_dir)
-    except:
-         print ("The images have been extracted previously!")
-         return 
+    create_dir(img_dir)
     convert_from_path(pdf_path=pdf_dir,fmt='jpg',output_folder=img_dir)
     return 
     
@@ -38,16 +56,21 @@ def img_to_txt(img_dir,txt_dir):
 
 #=============================
 if __name__=="__main__":
+    #drawing_file=open('drawing')
+    #out_root=open('output')
 
-    root="/media/mst/Backup/dataset/OCR/"
-    pdf_file="Crooked_Cogswell_Plans.pdf" # input the name of the drawing pdf you want to convert to images.
-    for pdf_file in listdir(root+"drawings/"):
-        pdf_dir=root+"drawings/"+pdf_file
-        img_dir=root+"images/"+pdf_file[:-4]+"/"
-        txt_dir=root+"corpus/"+pdf_file[:-4]+"/"
-        pdf_to_img(pdf_dir,img_dir)
-        img_to_txt(img_dir,txt_dir)
-
-
-
+    ## If you are using the wbesite:
+    drawing_file="/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/Website/static/files/ClearCreek_Drawings.pdf"
+    out_root="/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/Website/static/out/"
+    head_tail=os.path.split(drawing_file)
+    head=head_tail[1]
+    create_dir(out_root+"/images/")
+    img_dir=out_root+"/images/"+head[:-4]+"/"
+    create_dir(out_root+"/corpus/")
+    corpus_dir=out_root+"/corpus/"+head[:-4]+"/"
     
+    #pytesseract.pytesseract.tesseract_cmd =r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    #tesseract_path =open('tesseract')
+    #pytesseract.pytesseract.tesseract_cmd=tesseract_path
+    pdf_to_img(drawing_file,img_dir)
+    img_to_txt(img_dir,corpus_dir)

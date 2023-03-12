@@ -1,0 +1,365 @@
+body {
+  /* background: rgb(203, 211, 246); */
+  /* overflow-y: scroll;
+  overflow-x: scroll; */
+  margin-top: 50px;
+  margin-left: 100px;
+  }
+ 
+h1 {
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.5em;
+  color: rgb(6, 31, 112);
+  position:absolute;
+  top:15%;
+  left:8.5%
+  }
+ 
+.p0{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  color: rgb(6, 31, 112);
+  top:25%;
+  left:8.5%
+}
+
+.p_upload {
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:36%;
+  left:50% 
+  }
+
+.p_sheet{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:40%;
+  left:50%
+  }
+
+.p_process{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:44%;
+  left:50%
+  }
+     
+.p4{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  color:rgb(6, 31, 112);
+  top:5.5%;
+  left:8.5%
+}
+
+.p5{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.25em;
+  font-weight: bold;
+  color:rgb(6, 31, 112);
+  top:30%;
+  left:8.5%
+}
+
+.p6{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:34%;
+  left:8.5%
+}
+
+.p7{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.25em;
+  font-weight: bold;
+  color:rgb(6, 31, 112);
+  top:60%;
+  left:8.5%
+}
+
+.p8{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:64%;
+  left:8.5%
+}
+
+.p_project_type{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:60%;
+  left:50%
+}
+.p_keyword{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:60%;
+  left:69%
+}
+
+.p_search{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:56%;
+  left:50%
+}
+
+.p_fine_tuning{
+  position:absolute;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  color:rgb(6, 31, 112);
+  top:32%;
+  left:50%
+}
+.p_discipline
+{
+  position:absolute;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight:bold;
+  color:rgb(6, 31, 112);
+  top:65%;
+  left:50%;
+}
+
+.p_comment
+{
+  position:absolute;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight:bold;
+  color:rgb(6, 31, 112);
+  top:80%;
+  left:50%;
+}
+
+.p_like_count
+{
+  position:absolute;
+  top:15%;
+  left:2%;
+}
+
+
+#btn_show {
+  background-color: #072dc5; /* Blue */
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  position: absolute;
+  width:200px;
+  height:30px;
+  top:45.5%;
+  left:70.5%;
+}
+
+.btn_sheet{
+  background-color: #b4b4b4; /* Blue */
+  color: rgb(0, 0, 0);
+  font-size: 16px; 
+  position: absolute;
+  width:50px;
+  height:30px;
+  top:41.5%;
+  left:80%;
+}
+
+.btn_upload
+{
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  position: absolute;
+  width:100px;
+  height:30px;
+  top:38%;
+  left:70.5%;
+}
+
+.btn_browse
+{
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  position: absolute;
+  width:100px;
+  height:30px;
+  top:38%;
+  left:78.5%;
+}
+
+#input_Snum {
+  position: absolute;
+  width: 30px;
+  height: 25px;
+  top:41.5%;
+  left:76%
+}
+
+.input_comment{
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  top:85%;
+  left:50%
+}
+
+img {
+  position:absolute;
+  width: 200px;
+  height: 70px;
+  top:.5%;
+  }
+
+.line_h{
+  position:relative;
+  background: black;
+  border-top: 1px solid rgba(183, 183, 183, 0.985);    
+}
+
+.line_v {
+  position:relative;
+  left:42%;
+  top:220px;
+  border-left: 3px solid rgba(183, 183, 183, 0.985); 
+  height: 300px; /* Set the height of the line */
+}
+
+.data {
+  border-collapse: collapse;
+}
+
+.data td, .data th {
+  border: 1px solid black;
+  width: 50%;
+  padding: 5px;
+  /* TODO: Style the pandas dataframe so it looks super pleasing */
+}
+
+.dropdown_project_type_Container
+{
+  position:absolute;
+  top:62.5%;
+  left:60%; 
+}
+
+#dropdown_project_type 
+{
+  position: absolute;
+  color: rgb(0, 0, 0);
+}
+
+.dropdown_keyword_container
+{
+  position: absolute;
+  top:62.5%;
+  left:77%;
+}
+
+#dropdown_keyword
+{
+  position: absolute;
+  color:black;
+}
+
+.dropdown_discipline_container
+{
+  position: absolute;
+  top:67.5%;
+  left:60%;
+}
+
+.dropdown_discipline
+{
+  position: absolute;
+  color: black;
+}
+
+.my-table 
+{
+  /* border-collapse: collapse; */
+  width: 90%;
+
+  border-collapse: collapse;
+  margin-left: 0px;
+  margin-right: 20px;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.my-table th
+
+{
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.my-table td 
+{
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.my-table tbody tr 
+{
+  border-bottom: 1px solid #dddddd;
+}
+
+.my-table tbody tr:nth-of-type(even) 
+{
+  background-color: #ffffff;
+}
+
+.my-table tbody tr:last-of-type 
+{
+  border-bottom: 2px solid #009879;
+}
+
+.btn_thumbs_up 
+{
+  position: absolute;
+  top:20%;
+  left: 3%;
+  font-size: 24px;
+  background-color: #ffffff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.btn_thumbs_up:hover 
+{
+  background-color: #9b9898;
+}

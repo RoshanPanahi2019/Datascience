@@ -1,0 +1,102 @@
+<!-- TODO: 
+                    Landing page: 
+                        - Background image: 
+                            - Lager skanska to make things look good
+                        - Scrol bar
+                        - Look at Azure 
+                        -  -->
+<!-- a nice UI for landing page: 
+https://portal.azure.com/#home -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/main.css') }}">
+</head>
+
+<body>
+    <img src="https://s3.amazonaws.com/nashvillechamber.com/P2020-Investor-logos/skanska-2016.jpg " > 
+    <div class="line_h"></div> 
+    <div class="line_v"></div>
+
+    <h1> Welcome to the RFI Manager!</h1>
+
+    <p5 class="p5"> 
+                    RFI-Recommend: <br> </p5>
+    <p6 class="p6"> 
+                    Here, you can search through thousands <br>
+                    of RFI records. The AI engine helps <br>
+                    fine-tune your search and return most <br>
+                    related RFIs to your project.<br> <br>
+                    Simply input your search criteria <br>
+                    and upload your drawing set in pdf <br>
+                    format. <br> </p6>
+
+    <p7 class="p7"> 
+                    RFI-Insight:<br> </p7>
+    <p8 class="p8">
+                    This feature provides visualization and statistical overview<br>
+                    of the RFIs submitted for your current project. <br> </p8>
+
+    <form method='POST' enctype='multipart/form-data'>
+
+        <p class="p_fine_tuning"> AI-based Fine-Tuning:</p>
+        <p class="p_upload"> Upload your drawing </p> 
+        {{form.hidden_tag()}}
+        <div class="btn_upload">{{ form.submit() }}</div>
+        <div class="btn_browse">{{form.file()}}</div>
+
+        <p class="p_sheet">Pick a sheet number </p> 
+        <form action="/home" method="post"> 
+            <input type="text" id="input_Snum" name="input_Snum">
+
+        <p class="p_search"> Manual Search:</p>
+
+        <p class="p_project_type"> Project type </p> 
+        <div class="dropdown_project_type_Container">   
+            <select name="dropdown_project_type" id="dropdown_project_type">    
+                <option value="Healthcare"> Healthcare </option>
+                <option value="Data_Centre"> Data Centre</option>
+                <option value="School"> School</option>
+            </select>
+        </div>
+            
+        <p class="p_keyword"> Keyword</p> 
+        <div class="dropdown_keyword_container">   
+            <select name="dropdown_keyword" id="dropdown_keyword">    
+                <option value="Embed"> Embed </option>
+                <option value="Cost"> Cost</option>
+                <option value="Conflict"> Conflict</option>
+            </select>
+        </div>
+
+        <p class="p_discipline"> Discipline</p> 
+        <div class="dropdown_discipline_container">   
+            <select name="dropdown_discipline" id="dropdown_discipline">    
+                <option value="Architectural"> Architectural </option>
+                <option value="Structural"> Structural</option>
+                <option value="Mechanical"> Mechanical</option>
+                <option value="Electrical"> Electrical</option>
+                <option value="Fire_Protection"> Fire Protection</option>
+            </select>
+        </div>
+        
+        <p class="p_comment"> Your comment here </p>
+        <input class="input_comment" type="text" name="input_commnt"> 
+
+    </form>
+    
+    <form action="/show_data" target="_blank">
+        <p class="p_process"> Show results </p> 
+        <!-- TODO: make the comment box left-top aligned. Go next line using enter -->
+        <input type="submit" id="btn_show" value="Show RFI"  />
+        <button type="button" class="btn_sheet" onclick="getInputValue();">OK</button>
+
+    </form>
+</body>
+</html>
+
