@@ -11,7 +11,7 @@ import shutil
 
 def run():
     #TODO: make all the produced files, temporary files, to increase access speed. 
-    In_root_tmp='/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/tmp/'
+    In_root_tmp='../tmp/'
 
     for file in listdir(In_root_tmp):
         convert_from_path(In_root_tmp+file,fmt='jpg',output_folder=In_root_tmp)

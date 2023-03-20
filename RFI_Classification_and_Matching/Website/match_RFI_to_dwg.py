@@ -1,5 +1,6 @@
 import spacy
 import os
+import openai
 from ast import And
 import pandas as pd
 import re
@@ -17,6 +18,8 @@ import numpy as np
 import csv
 
 nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 def clean(df): 
 
@@ -46,15 +49,15 @@ def pre_process(df):
         document = ' '.join(document)
     return (document)
 
-def prepare_RFI(In_RFI,out):     # Read the RFI, pre-pocess it, write it out, read it back into a list of documents. 
-    if not os.path.exists(out+'pre_processed/RFI/pre_processed.txt'):
+def prepare_RFI(In_RFI,root):     # Read the RFI, pre-pocess it, write it out, read it back into a list of documents. 
+    if not os.path.exists(root+'pre_processed.txt'):
             print("I'm preprocessing the RFI...")
             df_RFI=pd.read_excel(In_RFI)
             df_RFI=clean(df_RFI)
             document=pre_process(df_RFI['question']) # Make preprocessing faster. 
-            write(document,out+'pre_processed/RFI/pre_processed.txt')
+            write(document,root+'pre_processed.txt')
     else: print("Already exists: RFI preprocessed file")
-    my_RFI=read_to_list(out+'pre_processed/RFI/pre_processed.txt')
+    my_RFI=read_to_list(root+'pre_processed.txt')
     return(my_RFI)
 
 def read_to_list(document):
@@ -114,11 +117,12 @@ def my_match_simple(In_dwg,out,my_RFI,raw_RFI): # match the query dwg with RFI o
                     for j in range(len(f_names)): # write the matched keys.
                         if my_RFI_vector[top_k_match][i][j]==1: 
                             keys.append(f_names[j])
+                    
                     writer.writerow([i,raw_RFI['subject'][top_k_match[i]],raw_RFI['question'][top_k_match[i]],raw_RFI['answer '][top_k_match[i]],keys])
                 keys=[]
     return 0
 
-def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFITF
+def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFITF - Summerize the RFIs using GPT models. 
 
     with open (in_root_tmp+'corpus.txt') as file:
         f=csv.reader(file)
@@ -143,7 +147,23 @@ def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFIT
                     for j in range(len(f_names)): # write the matched keys.
                         if my_RFI_vector[top_k_match][m][j]>0 and my_query_vector[i][j]>0: 
                             keys.append(f_names[j])
-                    writer.writerow([m,raw_RFI['subject'][top_k_match[m]],raw_RFI['question'][top_k_match[m]],raw_RFI['answer '][top_k_match[m]],keys])
+                    my_prompt=raw_RFI['question'][top_k_match[m]]
+
+                    response = openai.Completion.create(
+                    model="text-davinci-003",
+                    prompt=my_prompt,
+                    temperature=0.7,
+                    max_tokens=15,
+                    top_p=1.0,
+                    frequency_penalty=0.0,
+                    presence_penalty=1
+                    )
+                    # print(raw_RFI['question'][top_k_match[m]])
+                    RFI_Q_gpt=response.choices[0].text
+                    print(RFI_Q_gpt) # TODO: Continue from here - Apparantly, instead of summerizing the GPT code is ansewering the question. 
+                    exit()
+                    # Write the summer of the RFI instead of the entire RFI
+                    writer.writerow([m,raw_RFI['subject'][top_k_match[m]],prompt,raw_RFI['answer '][top_k_match[m]],keys])
                 keys=[]
     return (0)
 
@@ -168,13 +188,16 @@ def csv_to_list(in_root_tmp):
     write(my_query_list,in_root_tmp+"corpus.txt")
 
 def run():
-    root="/media/ms/D/myGithub_Classified/Skanska/RFI/Data/"
-    In_RFI=root+"raw_RFI_data/Input/rfi data 9.05.18 rev2.xlsx"
-    out="/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/Website/static/out/match/"
-    in_root_tmp="/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/tmp/"
+    root="/media/mst/Backup/Github_Large_Files/Datascience/Skanska/RFI/"
+    In_RFI=root+"rfi data 9.05.18 rev2.xlsx"
+    out="./static/out/match/"
+    in_root_tmp="../tmp/"
 
+    GPT_API_Key="/media/mst/Backup/Personal/GPT.txt"
+    openai.api_key_path =GPT_API_Key
+    
     csv_to_list(in_root_tmp)
-    my_RFI=prepare_RFI(In_RFI,out)
+    my_RFI=prepare_RFI(In_RFI,root)
     raw_RFI=pd.read_excel(In_RFI) # We can use the raw RFI because apparantly no records were droped during pre-processing. 
     raw_RFI=clean(raw_RFI)
     my_match_TFITF(raw_RFI,my_RFI,in_root_tmp)   

@@ -12,7 +12,7 @@ import shutil
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
-app.config['UPLOAD_FOLDER'] = '/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/tmp/'
+app.config['UPLOAD_FOLDER'] = '../tmp/'
 mode="prod"
 
 class UploadFileForm(FlaskForm):
@@ -40,7 +40,7 @@ def home():
 def showData(): # read the excel file from the directory and view in html 
     #TODO: return the csv related to the input sheet number
 
-    df = pandas.read_csv("/media/ms/D/myGithub/Datascience/RFI_Classification_and_Matching/tmp/1.csv")
+    df = pandas.read_csv("../tmp/1.csv")
     df.columns=["ID","Title","Question","Answer","Matched Terms"]
     return render_template('index2.html', tables=df,classes="data", titles=[''],header="true") 
 #==================================================
