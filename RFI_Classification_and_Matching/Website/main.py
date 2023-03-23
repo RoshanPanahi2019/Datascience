@@ -38,8 +38,6 @@ def home():
 
 @app.route("/show_data") 
 def showData(): # read the excel file from the directory and view in html 
-    #TODO: return the csv related to the input sheet number
-
     df = pandas.read_csv("../tmp/1.csv")
     df.columns=["ID","Title","Question","Answer","Matched Terms"]
     return render_template('index2.html', tables=df,classes="data", titles=[''],header="true") 
@@ -49,8 +47,3 @@ if __name__ == '__main__':
         app.run(host='127.0.0.1', port=5000,debug=True)  
     else:
         serve(app,host='127.0.0.1', port=5000,threads=2)
-    #TODO: 
-    # Check to see if the results make sense
-    # Pick the drawing sheet
-    # Modify the program to delete the files
-    # improve the speed
