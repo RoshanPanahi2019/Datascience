@@ -16,6 +16,8 @@ import string
 from operator import itemgetter
 import numpy as np
 import csv
+from sentence_transformers import SentenceTransformer, util
+import torch
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -76,7 +78,7 @@ def prepare_dwg(In_dwg):     # Read the DWG, pre-pocess it, write it out, read i
     my_string=' '.join(map(str,df_dwg['keywords'].tolist()))
     df_dwg=pd.DataFrame({'doc':[my_string]})
     df_dwg['doc']=pre_process(df_dwg['doc'])
-    query=df_dwg['doc'] # query is a string of the extract texts from dwg. 
+    query=df_dwg['doc'] # query is a string of the extracted texts from dwg. 
     return(query)
 
 def write(document,my_out):
@@ -147,23 +149,10 @@ def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFIT
                     for j in range(len(f_names)): # write the matched keys.
                         if my_RFI_vector[top_k_match][m][j]>0 and my_query_vector[i][j]>0: 
                             keys.append(f_names[j])
-                    my_prompt=raw_RFI['question'][top_k_match[m]]
-
-                    response = openai.Completion.create(
-                    model="text-davinci-003",
-                    prompt=my_prompt,
-                    temperature=0.7,
-                    max_tokens=15,
-                    top_p=1.0,
-                    frequency_penalty=0.0,
-                    presence_penalty=1
-                    )
-                    # print(raw_RFI['question'][top_k_match[m]])
-                    RFI_Q_gpt=response.choices[0].text
-                    print(RFI_Q_gpt) # TODO: Continue from here - Apparantly, instead of summerizing the GPT code is ansewering the question. 
-                    exit()
-                    # Write the summer of the RFI instead of the entire RFI
-                    writer.writerow([m,raw_RFI['subject'][top_k_match[m]],prompt,raw_RFI['answer '][top_k_match[m]],keys])
+                    out_RFI=raw_RFI['question'][top_k_match[m]]
+                    GPT_Bool=False
+                    if GPT_Bool==True: out_RFI=GPT() # Write the summery of the RFI instead of the entire RFI
+                    writer.writerow([m,raw_RFI['subject'][top_k_match[m]],out_RFI,raw_RFI['answer '][top_k_match[m]],keys])
                 keys=[]
     return (0)
 
@@ -177,13 +166,54 @@ def my_match_spacy(query,my_RFI):
     index, element = max(enumerate(score), key=itemgetter(1))
     return (index,element)
 
+def semantic_search(my_RFI,in_root_tmp):
+
+    embedder = SentenceTransformer('all-MiniLM-L6-v2')
+
+    corpus = my_RFI
+    corpus_embeddings = embedder.encode(corpus, convert_to_tensor=True)
+    with open (in_root_tmp+'corpus.txt') as file:
+            f=csv.reader(file)
+            os.remove(in_root_tmp+'corpus.txt')
+            my_query_list=list(f)[0]
+    queries = my_query_list
+
+
+    # Find the closest 10 sentences of the corpus for each query sentence based on cosine similarity
+    top_k = min(10, len(corpus))
+    for query in queries:
+        query_embedding = embedder.encode(query, convert_to_tensor=True)
+
+        # We use cosine-similarity and torch.topk to find the highest 5 scores
+        cos_scores = util.cos_sim(query_embedding, corpus_embeddings)[0]
+        top_results = torch.topk(cos_scores, k=top_k)
+
+        print("\n\n======================\n\n")
+        print("Query:", query)
+        print("\nTop 10 most similar sentences in corpus:")
+
+        for score, idx in zip(top_results[0], top_results[1]):
+            print(corpus[idx], "(Score: {:.4f})".format(score))
+
+def GPT(my_prompt):
+    response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=my_prompt,
+                temperature=0.7,
+                max_tokens=60,
+                top_p=1.0,
+                frequency_penalty=0.0,
+                presence_penalty=1
+                )
+    return (response.choices[0].text)
+
 # Store all texts from a drawing in a list file. len(list_file)=[number of sheets]
 def csv_to_list(in_root_tmp):
     print("Creating corpus list...")
     my_query_list=[]
     for file in sorted(os.listdir(in_root_tmp)):
         my_query=prepare_dwg(in_root_tmp+file) # Still need to remove none sense
-        my_query_list.append(my_query.to_list())
+        my_query_list.append(my_query.to_list()) # Create a list of strings. Each sheet one string. 
         os.remove(in_root_tmp+file)
     write(my_query_list,in_root_tmp+"corpus.txt")
 
@@ -201,5 +231,6 @@ def run():
     raw_RFI=pd.read_excel(In_RFI) # We can use the raw RFI because apparantly no records were droped during pre-processing. 
     raw_RFI=clean(raw_RFI)
     my_match_TFITF(raw_RFI,my_RFI,in_root_tmp)   
+    # semantic_search(my_RFI,in_root_tmp) #TODO: return the results from the raw RFI instead of the preprecessed RFIs. 
 
 
