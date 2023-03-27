@@ -1,9 +1,3 @@
-## RFI Recommender System:
-
-In this project rule-based and NLP methods are used to classify Request For Information(RFI) data from a construction company into disciplines, and computer vision is used to extract information from drawings. Finally, each drawing is matched with the most related RFI. 
-
-
-
 ## Request for Information (RFI) Recommender System for Pre-Construction Design Review Application Using Natural Language Processing, Chat-GPT, and Computer Vision 
 
 Roshan Panahi (1), John-Paul Kivlin (2), and Joseph Louis (3)
