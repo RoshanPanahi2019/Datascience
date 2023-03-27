@@ -1,6 +1,6 @@
 ## Request for Information (RFI) Recommender System for Pre-Construction Design Review Application Using Natural Language Processing, Chat-GPT, and Computer Vision 
 
-Roshan Panahi (1), John-Paul Kivlin (2), and Joseph Louis (3)
+(1) Roshan Panahi, (2) John-Paul Kivlin, (3) Joseph Louis 
 
 (1) Ph.D. Candidate, School of Civil and Construction Engineering, Oregon State University, Corvallis Oregon 97331 USA, E-mail: panahir@oregonstate.edu <br>
 (2) Senior Project Manager, Skanska, Portland, Oregon 97209 USA, E-mail: johnpaul.kivlin@skanska.com <br>
