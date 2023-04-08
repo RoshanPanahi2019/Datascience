@@ -21,4 +21,4 @@ The installation instructions are for Ubuntu.
 6. Execute the script using: "python main.py"
 7. Open a browser and type: "http://localhost:5000/"
 8. Click on "browse", select a drawing.pdf, and press "upload.
-9. After the process if over, click on "open CSV" 
+9. After the process if over, click on "Show RFI" 
