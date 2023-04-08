@@ -1,23 +1,22 @@
-import spacy
+# import spacy
+# from operator import itemgetter
+# from ast import And
+# import string
+
 import os
 import openai
-from ast import And
 import pandas as pd
 import re
 import nltk as nltk
+import numpy as np
+import csv
+import torch
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.metrics.pairwise import cosine_similarity
-
-import shutil
-import string
-from operator import itemgetter
-import numpy as np
-import csv
 from sentence_transformers import SentenceTransformer, util
-import torch
 
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -96,34 +95,6 @@ def my_vectorize(documents,vocab): # Tokenizing & Vectorizing
     #return (np.ceil(X),X_names) # Just return the term frequency for now (If present 1 else 0)
     return(X,X_names) 
 
-def my_match_simple(In_dwg,out,my_RFI,raw_RFI): # match the query dwg with RFI only based on the terms in common. 
-    for file in os.listdir(In_dwg):
-        match=[]
-        if file[-3:]=="csv":
-            with open(out+'match/simple/'+file[:-4]+'.csv', 'w') as out_file:
-                writer=csv.writer(out_file)
-                writer.writerow(["Index","Subject","Question","Answer","Keywords"])
-                my_query=prepare_dwg(In_dwg+file)
-                my_query_vector,f_names=my_vectorize(my_query,vocab=None)
-                my_RFI_vector,_=my_vectorize(my_RFI,vocab=f_names)
-
-                sim_score=[]
-                k=10
-                for i in range(len(my_RFI_vector)):
-                    sim_score.append(int(np.dot(my_query_vector,np.transpose(my_RFI_vector[i]))))
-
-                top_k_match=(sorted(range(len(sim_score)), key=lambda i: sim_score[i], reverse=True)[:k]) #returns the top k best matches 
-                for i in range(k): 
-                    #out_file.write((f'{raw_RFI[top_k_match[i]]}\n \n '))
-                    keys=[]
-                    for j in range(len(f_names)): # write the matched keys.
-                        if my_RFI_vector[top_k_match][i][j]==1: 
-                            keys.append(f_names[j])
-                    
-                    writer.writerow([i,raw_RFI['subject'][top_k_match[i]],raw_RFI['question'][top_k_match[i]],raw_RFI['answer '][top_k_match[i]],keys])
-                keys=[]
-    return 0
-
 def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFITF - Summerize the RFIs using GPT models. 
 
     with open (in_root_tmp+'corpus.txt') as file:
@@ -155,16 +126,6 @@ def my_match_TFITF(raw_RFI,my_RFI,in_root_tmp): #match query with RFI using TFIT
                     writer.writerow([m,raw_RFI['subject'][top_k_match[m]],out_RFI,raw_RFI['answer '][top_k_match[m]],keys])
                 keys=[]
     return (0)
-
-def my_match_spacy(query,my_RFI):
-    score=[]
-    nlp = spacy.load("en_core_web_sm")
-    query=nlp(query)
-    for i in range(10000):
-        rfi=nlp(my_RFI[i])
-        score.append(query.similarity(rfi))
-    index, element = max(enumerate(score), key=itemgetter(1))
-    return (index,element)
 
 def semantic_search(my_RFI,in_root_tmp):
 
@@ -233,4 +194,48 @@ def run():
     my_match_TFITF(raw_RFI,my_RFI,in_root_tmp)   
     # semantic_search(my_RFI,in_root_tmp) #TODO: return the results from the raw RFI instead of the preprecessed RFIs. 
 
+########### END of Functional Script ##############
 
+
+
+########### TODO: Move these functions to utilities ##############
+
+# def my_match_spacy(query,my_RFI): # Uncomment if using "Spacy"
+#     score=[]
+#     nlp = spacy.load("en_core_web_sm")
+#     query=nlp(query)
+#     for i in range(10000):
+#         rfi=nlp(my_RFI[i])
+#         score.append(query.similarity(rfi))
+#     index, element = max(enumerate(score), key=itemgetter(1))
+#     return (index,element)
+
+
+
+# def my_match_simple(In_dwg,out,my_RFI,raw_RFI): # match the query dwg with RFI only based on the terms in common. 
+#     for file in os.listdir(In_dwg):
+#         match=[]
+#         if file[-3:]=="csv":
+#             with open(out+'match/simple/'+file[:-4]+'.csv', 'w') as out_file:
+#                 writer=csv.writer(out_file)
+#                 writer.writerow(["Index","Subject","Question","Answer","Keywords"])
+#                 my_query=prepare_dwg(In_dwg+file)
+#                 my_query_vector,f_names=my_vectorize(my_query,vocab=None)
+#                 my_RFI_vector,_=my_vectorize(my_RFI,vocab=f_names)
+
+#                 sim_score=[]
+#                 k=10
+#                 for i in range(len(my_RFI_vector)):
+#                     sim_score.append(int(np.dot(my_query_vector,np.transpose(my_RFI_vector[i]))))
+
+#                 top_k_match=(sorted(range(len(sim_score)), key=lambda i: sim_score[i], reverse=True)[:k]) #returns the top k best matches 
+#                 for i in range(k): 
+#                     #out_file.write((f'{raw_RFI[top_k_match[i]]}\n \n '))
+#                     keys=[]
+#                     for j in range(len(f_names)): # write the matched keys.
+#                         if my_RFI_vector[top_k_match][i][j]==1: 
+#                             keys.append(f_names[j])
+                    
+#                     writer.writerow([i,raw_RFI['subject'][top_k_match[i]],raw_RFI['question'][top_k_match[i]],raw_RFI['answer '][top_k_match[i]],keys])
+#                 keys=[]
+#     return 0

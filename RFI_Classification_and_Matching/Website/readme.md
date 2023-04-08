@@ -11,3 +11,14 @@ Design reviews are critical for construction projects to reduce costly reworks a
 Keywords: design review, request for information (RFI), natural language processing, computer vision, Chat-GPT
 
 ## Installation:
+The installation instructions are for Ubuntu. 
+
+1. Clone "RFI_Classification_and_Matching" repository using: "git clone https://github.com/RoshanPanahi2019/Datascience/tree/main/RFI_Classification_and_Matching"
+2. Create an anaconda environment using: "conda create --name myenv"
+3. Activate the conda environment using: "conda activate myenv"
+4. Install pip inside the new environment: "conda install pip"
+5. Install all packages using pip: "pip install -r requirements.txt"
+6. Execute the script using: "python main.py"
+7. Open a browser and type: "http://localhost:5000/"
+8. Click on "browse", select a drawing.pdf, and press "upload.
+9. After the process if over, click on "open CSV" 

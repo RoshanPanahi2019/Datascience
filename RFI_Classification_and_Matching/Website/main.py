@@ -3,19 +3,17 @@
 
 @author: Roshan Panahi
 """
-
-
-from flask import Flask, render_template,request
-from flask_wtf import FlaskForm
-import pandas
-from wtforms import FileField, SubmitField
-from werkzeug.utils import secure_filename
 import os
-from wtforms.validators import InputRequired
+import pandas
 import ocr 
 import match_RFI_to_dwg
-from waitress import serve
 import shutil
+from flask import Flask, render_template,request
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from werkzeug.utils import secure_filename
+from wtforms.validators import InputRequired
+from waitress import serve
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'

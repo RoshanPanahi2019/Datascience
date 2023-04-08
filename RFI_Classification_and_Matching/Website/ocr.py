@@ -1,13 +1,12 @@
 # This program takes pdf drawings and outputs the texts for each sheet. 
 
 import os
-from os import listdir, mkdir
+import pandas as pd
 import pytesseract
+from os import listdir, mkdir
 from pytesseract import Output
 from pdf2image import convert_from_path
 from PIL import Image
-import pandas as pd
-import shutil
 
 def run():
     #TODO: make all the produced files, temporary files, to increase access speed. 
